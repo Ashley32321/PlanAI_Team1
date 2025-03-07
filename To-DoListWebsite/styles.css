@@ -1,3 +1,20 @@
+/* Google login style*/
+body {
+    background-color: whitesmoke;
+    color: black;
+    display: block;
+    font-family: Verdana,sans-serif;
+    font-size: 18pt;
+    margin: 0 auto;
+    padding: 6pt;
+}
+
+p {
+    margin: 0;
+    margin-bottom: 20pt;
+    padding: 0;
+}
+
 /* Dark Mode Styles */
 body {
     font-family: Arial, sans-serif;
