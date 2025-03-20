@@ -19,14 +19,22 @@ function afterSignIn(response) {
     const name = responsePayload.name;
     const email = responsePayload.email;
     const userInfo = `Welcome, ${name}. Your email is ${email}.`;
+    
     document.getElementById('prompt').textContent = userInfo;
     document.getElementById('signin-button').remove();
+    
     const signOutButton = document.createElement('button');
     signOutButton.setAttribute('id', 'signout-button');
     signOutButton.setAttribute('onclick', 'afterSignOut()');
     const signOutText = document.createTextNode('Sign Out');
     signOutButton.appendChild(signOutText);
     document.body.appendChild(signOutButton);
+
+    // Save user data to localStorage
+    localStorage.setItem('user', JSON.stringify(responsePayload));
+
+    // Load tasks for the signed-in user
+    loadTasks();
 }
 
 function decodeJwtResponse(token) {
@@ -41,6 +49,7 @@ function decodeJwtResponse(token) {
 function afterSignOut() {
     document.getElementById('prompt').textContent = signInPrompt;
     document.getElementById('signout-button').remove();
+    
     const signInButton = document.createElement('div');
     signInButton.setAttribute('id', 'signin-button');
     document.body.appendChild(signInButton);
@@ -49,6 +58,12 @@ function afterSignOut() {
         { theme: "outline", size: "large" }
     );
     google.accounts.id.disableAutoSelect();
+
+    // Clear user data from localStorage
+    localStorage.removeItem('user');
+    
+    // Clear the task list
+    taskList.innerHTML = "";
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -60,7 +75,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const taskTime = document.getElementById("task-time");
 
     initializeDropdown();
-    loadTasks();
 
     // Generate dropdown with correct date order
     function initializeDropdown() {
@@ -145,16 +159,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Save tasks to localStorage
     function saveTasks() {
-        localStorage.setItem("tasks", taskList.innerHTML);
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+            localStorage.setItem(`${user.email}_tasks`, taskList.innerHTML);
+        }
     }
 
     // Load tasks from localStorage
     function loadTasks() {
-        if (localStorage.getItem("tasks")) {
-            taskList.innerHTML = localStorage.getItem("tasks");
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user && localStorage.getItem(`${user.email}_tasks`)) {
+            taskList.innerHTML = localStorage.getItem(`${user.email}_tasks`);
             sortTasks();
         }
     }
 });
+
 
 
