@@ -1,5 +1,5 @@
 const signInPrompt = 'Please click the button below to log in using your Google account.';
-const clientId = '998946007648-orlcfpteudvhiajo6bnv0jhvqmkbgt9t.apps.googleusercontent.com';
+const clientId = '';
 
 window.onload = () => {
     document.getElementById("prompt").textContent = signInPrompt;
@@ -67,6 +67,28 @@ function afterSignOut() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+    const themeToggle = document.getElementById("theme-toggle");
+    const currentTheme = localStorage.getItem("theme");
+
+    // Apply stored theme
+    if (currentTheme === "light") {
+        document.body.classList.add("light-theme");
+    }
+
+    // Toggle Theme
+    themeToggle.addEventListener("click", function () {
+        document.body.classList.toggle("light-theme");
+
+        // Store theme preference
+        if (document.body.classList.contains("light-theme")) {
+            localStorage.setItem("theme", "light");
+        } else {
+            localStorage.setItem("theme", "dark");
+        }
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
     const taskForm = document.getElementById("task-form");
     const taskInput = document.getElementById("task-input");
     const taskList = document.getElementById("task-list");
@@ -100,14 +122,52 @@ document.addEventListener("DOMContentLoaded", function () {
         taskTime.value = "";
     });
 
+    document.getElementById("task-form").addEventListener("submit", function (event) {
+        event.preventDefault(); // Stop page from reloading
+    
+        // Get task input values
+        let taskText = document.getElementById("task-input").value.trim();
+        let day = document.getElementById("day-select").value;
+        let time = document.getElementById("task-time").value;
+    
+        if (!taskText || !day || !time) return; // Ensure all fields are filled
+    
+        // Add task visually
+        addTask(taskText, day, time);
+    
+        // Send task data to PHP
+        fetch("profile.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: `task_name=${encodeURIComponent(taskText)}&task_date=${encodeURIComponent(day)}&task_time=${encodeURIComponent(time)}`,
+        })
+        .then(response => response.text())
+        .then(data => console.log("Task saved:", data)) // Log response
+        .catch(error => console.error("Error:", error));
+    
+        // Clear form after adding task
+        document.getElementById("task-input").value = "";
+        document.getElementById("task-time").value = "";
+    });
+    
+
     // Function to add a task with day and time
     function addTask(taskText, day, time) {
+        if (!taskText || !day || !time) return;
+    
+        let [hours, minutes] = time.split(":");
+        let ampm = hours >= 12 ? "PM" : "AM"; // Determine AM/PM
+        let formattedTime = `${hours % 12 || 12}:${minutes} ${ampm}`; // Convert to 12-hour format
+    
         const li = document.createElement("li");
         li.setAttribute("data-date", day);
         li.setAttribute("data-time", time);
-
+        li.setAttribute("data-task-text", taskText.toLowerCase()); // Store task text in lowercase for easier search
+    
         li.innerHTML = `
-            <span class="task-text">${taskText} - ${day} @ ${time}</span>
+            <span class="task-text">${taskText} - ${day} @ ${formattedTime}</span>
             <div class="task-actions">
                 <button class="edit-btn">✎ Edit</button>
                 <button class="complete-btn">✔ Complete</button>
@@ -173,7 +233,25 @@ document.addEventListener("DOMContentLoaded", function () {
             sortTasks();
         }
     }
+
+    // Search functionality
+    searchBar.addEventListener("input", function () {
+        const query = searchBar.value.toLowerCase(); // Convert to lowercase for case-insensitive comparison
+
+        // Get all tasks
+        const tasks = taskList.querySelectorAll("li");
+
+        tasks.forEach(task => {
+            const taskText = task.getAttribute("data-task-text");
+
+            // Show tasks that match the search query
+            if (taskText.includes(query)) {
+                task.style.display = "flex"; // Show matching task
+            } else {
+                task.style.display = "none"; // Hide non-matching task
+            }
+        });
+    });
+
+    loadTasks();
 });
-
-
-

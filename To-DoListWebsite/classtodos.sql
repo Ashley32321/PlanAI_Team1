@@ -15,15 +15,18 @@
 */
 -- Completely purge any existing database with the same name.
 DROP DATABASE IF EXISTS `classtodos`;
+
 -- Create a new, blank schema with the desired name.
 CREATE DATABASE `classtodos`;
+
 -- Make the new database the active schema.
 USE `classtodos`;
 
+-- Create the 'user' table to store user information
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE user
 (
-	user_id CHAR(36) PRIMARY KEY,       
+    user_id CHAR(36) PRIMARY KEY,       
     username VARCHAR(20) NOT NULL,
     email VARCHAR(50) NOT NULL UNIQUE,    
     password VARCHAR(255) NOT NULL,       
@@ -31,7 +34,7 @@ CREATE TABLE user
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
 );
 
-
+-- Create the 'tasks' table to store user tasks
 DROP TABLE IF EXISTS `tasks`;
 CREATE TABLE tasks
 (
@@ -46,6 +49,9 @@ CREATE TABLE tasks
     FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE 
 );
 
+-- Commented out extra functionality that can be added later
+/*
+-- Create the 'categories' table to store task categories (can be expanded later)
 DROP TABLE IF EXISTS `categories`;
 CREATE TABLE categories
 (
@@ -55,6 +61,7 @@ CREATE TABLE categories
     FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
 );
 
+-- Create the 'task_comments' table to store comments on tasks (can be expanded later)
 DROP TABLE IF EXISTS `task_comments`;
 CREATE TABLE task_comments
 (
@@ -66,5 +73,5 @@ CREATE TABLE task_comments
     FOREIGN KEY (task_num) REFERENCES tasks(task_num) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
 );
-
+*/
 

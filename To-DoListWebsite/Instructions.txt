@@ -14,7 +14,7 @@ top of the webpage.
 NEW INSTRUCTIONS BELOW!!! 3/20/2025
 
 New URL: http://localhost/To-DoListWebsite/login.php
-http://localhost/To-DoListWebsite/login.php
+Extra URL in case you delete the first one. http://localhost/To-DoListWebsite/login.php
 
 Install Google Login API from Github
 1. Go to this github page: https://github.com/googleapis/google-api-php-client
@@ -34,3 +34,5 @@ to this url : https://console.cloud.google.com/welcome?orgonly=true&project=orig
 Then you type the word "clients" into the search bar at the top and click the link with that name.
 Then you click on Plan AI Login under the name section.
 On the right it should show both the client ID and the client secret.
+
+9. Also add the client ID to line 2 of script.js.
