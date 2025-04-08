@@ -14,16 +14,16 @@
 
 /* Light Theme */
 .light-theme {
-    --bg-color: #ffffff;
+    --bg-color: #aaaaaa;
     --text-color: #000000;
     --container-bg: #f9f9f9;
-    --border-color: #ccc;
+    --border-color: #555;
     --button-bg: #dddddd;
     --button-hover-bg: #007bff;
     --task-bg: #f0f0f0;
     --task-border: #bbb;
     --completed-text: #666;
-    --shadow-color: #cccccc;
+    --shadow-color: #333333;
 }
 
 /* Apply Variables */
@@ -34,7 +34,8 @@ body {
     text-align: center;
     margin: 0;
     padding: 0;
-    box-shadow: -10px -45px 100px rgba(255, 255, 255, 0.1);
+    box-shadow: -10px -75px 250px rgba(200, 200, 200, 0.2);
+    text-shadow: 2px 2px 8px var(--shadow-color);
 }
 
 /* Container */
@@ -47,12 +48,14 @@ body {
     border-radius: 8px;
     box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1);
     text-shadow: 2px 2px 8px var(--shadow-color);
+    border: 4px solid var(--border-color);
+    box-shadow: inset -1px -5px 20px var(--shadow-color);
+    text-shadow: 2px 2px 8px var(--shadow-color);
 }
 
 .content {
     margin-top: 0; /* Remove any extra margin-top here */
     padding-top: 60px; /* Padding to create space inside */
-    background-color: var(--bg-color); /* Make sure the background covers the whole content */
 }
 
 .container, .content {
@@ -149,10 +152,14 @@ li {
     border-radius: 5px;
     border: none;
     cursor: pointer;
+    box-shadow: inset -1px -5px 20px var(--shadow-color);
+    text-shadow: 2px 2px 8px var(--shadow-color);
 }
 
 .logout-btn:hover {
     background-color: #c9302c; /* Darker red */
+    box-shadow: inset -1px -5px 20px var(--shadow-color);
+    text-shadow: 2px 2px 8px var(--shadow-color);
 }
 
 /* Style for the Theme Toggle Button */
@@ -175,7 +182,7 @@ li {
 
 .edit-btn, .complete-btn, .delete-btn {
     background-color: transparent;
-    border: none;
+    border: 2px solid var(--border-color);
     padding: 5px 10px;
     cursor: pointer;
     transition: background-color 0.3s ease; /* Smooth transition */
@@ -231,6 +238,7 @@ body.login-page .google-login-btn {
     border-radius: 5px;
     text-decoration: none;
     font-weight: bold;
+    border: 4px solid var(--border-color);
 }
 
 body.login-page .google-login-btn .icon {
