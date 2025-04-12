@@ -22,56 +22,27 @@ CREATE DATABASE `classtodos`;
 -- Make the new database the active schema.
 USE `classtodos`;
 
--- Create the 'user' table to store user information
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE user
-(
-    user_id CHAR(36) PRIMARY KEY,       
-    username VARCHAR(20) NOT NULL,
-    email VARCHAR(50) NOT NULL UNIQUE,    
-    password VARCHAR(255) NOT NULL,       
-    cell_phone VARCHAR(12),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
-);
-
--- Create the 'tasks' table to store user tasks
 DROP TABLE IF EXISTS `tasks`;
-CREATE TABLE tasks
-(
-    task_num CHAR(5) PRIMARY KEY,          
+
+CREATE TABLE tasks (
+    task_num CHAR(5) PRIMARY KEY,  -- Unique 5-character task number
     task_name VARCHAR(100) NOT NULL,        
-    task_date DATE,                         
-    task_time TIME,                         
-    user_id CHAR(36),                      
+    task_date DATE NOT NULL,                         
+    task_time TIME NOT NULL, 
+    completed BOOLEAN DEFAULT 0,                        
     status ENUM('Pending', 'In Progress', 'Completed') DEFAULT 'Pending',  
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,  
-    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE 
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP 
 );
 
--- Commented out extra functionality that can be added later
-/*
--- Create the 'categories' table to store task categories (can be expanded later)
-DROP TABLE IF EXISTS `categories`;
-CREATE TABLE categories
-(
-    category_id CHAR(36) PRIMARY KEY,      
-    category_name VARCHAR(50) NOT NULL,    
-    user_id CHAR(36),                      
-    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
-);
-
--- Create the 'task_comments' table to store comments on tasks (can be expanded later)
-DROP TABLE IF EXISTS `task_comments`;
-CREATE TABLE task_comments
-(
-    comment_id CHAR(36) PRIMARY KEY,       
-    task_num CHAR(5),                      
-    user_id CHAR(36),                      
-    comment_text TEXT NOT NULL,            
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  
-    FOREIGN KEY (task_num) REFERENCES tasks(task_num) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
-);
-*/
-
+-- Create a trigger to auto-generate a task_num (5-character random ID)
+DROP TRIGGER IF EXISTS before_insert_tasks;
+DELIMITER //
+CREATE TRIGGER before_insert_tasks 
+BEFORE INSERT ON tasks
+FOR EACH ROW
+BEGIN
+    SET NEW.task_num = SUBSTRING(UUID(), 1, 5);
+END;
+//
+DELIMITER ;
