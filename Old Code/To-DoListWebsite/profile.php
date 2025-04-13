@@ -51,7 +51,7 @@ $google_picture = $_SESSION['google_picture'];
                         <path d="..."/>
                     </svg>
                 </div>
-                <div class="wrap"><strong>Name</strong><span><?=$google_name?></span></div>
+                <div class="wrap"><strong>Name: </strong><span><?=$google_name?></span></div>
             </div>
 
             <div class="email">
@@ -60,7 +60,7 @@ $google_picture = $_SESSION['google_picture'];
                         <path d="..."/>
                     </svg>
                 </div>
-                <div class="wrap"><strong>Email</strong><span><?=$google_email?></span></div>
+                <div class="wrap"><strong>Email: </strong><span><?=$google_email?></span></div>
             </div>
         </div>
     </div>
@@ -71,21 +71,37 @@ $google_picture = $_SESSION['google_picture'];
 
         <!-- Task input form -->
         <form id="task-form">
-            <label for="task-name">Task Name:</label>
-            <input type="text" id="task-name" name="task_name" required>
+            <label for="task-input">Task Name:</label>
+            <input type="text" id="task-input" name="task_name" required>
 
             <label for="task-date">Task Date:</label>
-            <input type="date" id="task-date" name="task_date" required>
+            <input
+                type="date"
+                id="task-date"
+                name="task_date"
+                style="
+                    width: 60%;
+                    padding: 10px;
+                    margin-bottom: 15px;
+                    border: 2px solid var(--border-color);
+                    border-radius: 6px;
+                    background-color: var(--button-bg);
+                    color: var(--text-color);
+                    box-shadow: inset -1px -5px 20px var(--shadow-color);
+                    text-shadow: 2px 2px 8px var(--shadow-color);
+                    font-size: 16px;
+                "
+            >
 
             <label for="task-time">Task Time:</label>
             <input type="time" id="task-time" name="task_time" required>
 
-            <!-- Button text will change based on whether we're adding or editing -->
             <button type="submit" id="task-form-btn">Confirm</button>
         </form>
 
+
         <!-- Search bar -->
-        <input type="text" id="search-bar" placeholder="Search tasks...">
+       <!-- <input type="text" id="search-bar" placeholder="Search tasks..."> -->
 
         <!-- Task list -->
         <ul id="task-list"></ul>

@@ -68,7 +68,7 @@ body {
 }
 
 /* Input Fields (Task Name, Date, Time, Search) */
-#task-name,
+#task-input,
 #task-date,
 #task-time,
 #search-bar {
@@ -82,7 +82,35 @@ body {
     box-shadow: inset -1px -5px 20px var(--shadow-color);
     text-shadow: 2px 2px 8px var(--shadow-color);
     font-size: 16px;
+    appearance: none;
+    -webkit-appearance: none;
 }
+
+#task-date {
+    width: 60% !important;
+    padding: 10px !important;
+    margin-bottom: 15px !important;
+    border: 2px solid var(--border-color) !important;
+    border-radius: 6px !important;
+    background-color: var(--button-bg) !important;
+    color: var(--text-color) !important;
+    box-shadow: inset -1px -5px 20px var(--shadow-color) !important;
+    text-shadow: 2px 2px 8px var(--shadow-color) !important;
+    font-size: 16px !important;
+}
+
+/* Hide default date picker icon (optional) */
+#task-date::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+/* Optional: Style focus state of date input */
+#task-date:focus {
+    outline: none;
+    border-color: var(--button-hover-bg);
+    box-shadow: 0 0 5px var(--button-hover-bg);
+}
+
 
 /* Form Labels */
 #task-form label {

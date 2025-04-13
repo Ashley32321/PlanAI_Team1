@@ -1,7 +1,7 @@
 /*
 ------------------------------------------------------------------------------
-    Name:	Name
-    Author:	PAR
+    Name:	classtodos.sql
+    Author:	Preston A. Reuter
     Language:	SQL
     Date:	2025-02-22
     Purpose: PlanAI Database

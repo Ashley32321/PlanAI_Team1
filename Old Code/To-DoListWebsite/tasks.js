@@ -123,11 +123,18 @@ function afterSignOut() {
 
 // === DOM Ready Setup ===
 document.addEventListener("DOMContentLoaded", function () {
+    // Get elements after the DOM is loaded
     const taskForm = document.getElementById("task-form");
-    const taskInput = document.getElementById("task-name");
-    const taskDate = document.getElementById("task-date");
-    const taskTime = document.getElementById("task-time");
+    const taskInput = document.getElementById("task-name");  // Ensure this matches the actual ID in HTML
+    const taskDate = document.getElementById("task-date");    // Ensure this matches the actual ID in HTML
+    const taskTime = document.getElementById("task-time");    // Ensure this matches the actual ID in HTML
     const taskList = document.getElementById("task-list");
+
+    // Check if required elements are found in the DOM
+    if (!taskInput || !taskDate || !taskTime || !taskForm) {
+        console.error("One or more required elements not found in the DOM.");
+        return; // Exit early if required elements are missing
+    }
 
     // Prevent past dates
     function setMinDateTime() {
@@ -156,50 +163,55 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentTaskNum = null;
 
     // Submit handler (add or edit task)
-    if (taskForm) {
-        taskForm.addEventListener("submit", function (e) {
-            e.preventDefault();
-            const formData = new FormData(taskForm);
-            const url = isEditMode ? "edit_task.php" : "add_task.php";
+    taskForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const formData = new FormData(taskForm);
+        const url = isEditMode ? "edit_task.php" : "add_task.php";
 
-            if (isEditMode) formData.append("task_num", currentTaskNum);
+        if (isEditMode) formData.append("task_num", currentTaskNum);
 
-            fetch(url, {
-                method: "POST",
-                body: formData
-            })
-                .then(() => {
-                    loadTasks();
-                    taskForm.reset();
-                    isEditMode = false;
-                    currentTaskNum = null;
-                })
-                .catch(error => console.error("Error submitting task:", error));
-        });
-    }
+        fetch(url, {
+            method: "POST",
+            body: formData
+        })
+        .then(() => {
+            loadTasks();  // Refresh task list after submission
+            taskForm.reset();  // Reset the form fields
+            isEditMode = false;
+            currentTaskNum = null;  // Reset edit state
+        })
+        .catch(error => console.error("Error submitting task:", error));
+    });
 
     // Edit Task
     window.editTask = function (taskNum, name, date, time) {
-        taskInput.value = name;
-        taskDate.value = date;
-        taskTime.value = time;
-        isEditMode = true;
-        currentTaskNum = taskNum;
+        console.log("Editing task:", taskNum, name, date, time); // Log for debugging
+
+        // Check if elements exist before assigning values
+        if (taskInput && taskDate && taskTime) {
+            taskInput.value = name;
+            taskDate.value = date;
+            taskTime.value = time;
+            isEditMode = true;
+            currentTaskNum = taskNum;
+        } else {
+            console.error("One or more input elements are missing.");
+        }
     };
 
     // Toggle Completed/Uncompleted
-window.markAsCompleted = function (taskNum, taskElement) {
-    const isCompleted = taskElement.classList.contains("completed");
-    const newStatus = isCompleted ? "Not Completed" : "Completed";
+    window.markAsCompleted = function (taskNum, taskElement) {
+        const isCompleted = taskElement.classList.contains("completed");
+        const newStatus = isCompleted ? "Not Completed" : "Completed";
 
-    fetch(`mark_completed.php?task_num=${taskNum}&status=${newStatus}`)
-        .then(() => {
-            taskElement.classList.toggle("completed");
-            const btn = taskElement.querySelector(".complete-btn");
-            btn.textContent = isCompleted ? "Complete" : "Uncomplete";
-        })
-        .catch(error => console.error("Error toggling task status:", error));
-};
+        fetch(`mark_completed.php?task_num=${taskNum}&status=${newStatus}`)
+            .then(() => {
+                taskElement.classList.toggle("completed");
+                const btn = taskElement.querySelector(".complete-btn");
+                btn.textContent = isCompleted ? "Complete" : "Uncomplete";
+            })
+            .catch(error => console.error("Error toggling task status:", error));
+    };
 
 // Delete Task
 window.deleteTask = function (taskNum, taskElement) {
@@ -216,43 +228,47 @@ window.loadTasks = function () {
     fetch("fetch_tasks.php")
         .then(response => response.json())
         .then(tasks => {
-            taskList.innerHTML = "";
+            taskList.innerHTML = "";  // Clear the task list
 
             tasks.forEach(task => {
                 const taskItem = document.createElement("li");
                 taskItem.dataset.taskNum = task.task_num;
                 taskItem.classList.add("task-item");
-                if (task.status === "Completed") taskItem.classList.add("completed");
-            
+
+                // Check the task status and mark as "completed" if necessary
+                if (task.status === "Completed") {
+                    taskItem.classList.add("completed");
+                }
+
                 const taskContent = document.createElement("span");
                 taskContent.textContent = `${task.task_name} - ${task.task_date} ${task.task_time}`;
                 taskItem.appendChild(taskContent);
-            
-                // Wrap buttons in .task-actions div
+
                 const actionsDiv = document.createElement("div");
                 actionsDiv.classList.add("task-actions");
-            
+
+                // Create "Complete" Button
                 const completeButton = document.createElement("button");
                 completeButton.classList.add("complete-btn");
                 completeButton.textContent = task.status === "Completed" ? "Uncomplete" : "Complete";
                 completeButton.addEventListener("click", () => markAsCompleted(task.task_num, taskItem));
                 actionsDiv.appendChild(completeButton);
-            
+
+                // Create "Edit" Button
                 const editButton = document.createElement("button");
                 editButton.classList.add("edit-btn");
                 editButton.textContent = "Edit";
                 editButton.addEventListener("click", () => editTask(task.task_num, task.task_name, task.task_date, task.task_time));
                 actionsDiv.appendChild(editButton);
-            
+
+                // Create "Delete" Button
                 const deleteButton = document.createElement("button");
                 deleteButton.classList.add("delete-btn");
                 deleteButton.textContent = "Delete";
                 deleteButton.addEventListener("click", () => deleteTask(task.task_num, taskItem));
                 actionsDiv.appendChild(deleteButton);
-            
-                // Append the wrapped buttons to the list item
+
                 taskItem.appendChild(actionsDiv);
-            
                 taskList.appendChild(taskItem);
             });
         })

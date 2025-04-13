@@ -1,6 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <style>
+        .logo-image {
+            position: absolute;
+            top: 87px;
+            left: 897px;
+            width: 120px; /* Adjust as needed */
+            height: auto;
+            z-index: 1000;
+        }
+
+        body {
+            margin: 0;
+            padding: 8px 12px;
+        }
+    </style>
+</head>
+<body>
+
+<?php
+    // Path to your PNG logo
+    $imagePath = "LogoImg/PlanAiLogo.png"; 
+?>
+
+<img src="<?php echo $imagePath; ?>" class="logo-image">
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,minimum-scale=1">
     <title>PlanAI Home</title>

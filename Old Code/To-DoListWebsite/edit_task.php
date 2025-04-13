@@ -18,6 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['task_num'])) {
             $stmt->bindParam(':task_date', $task_date);
             $stmt->bindParam(':task_time', $task_time);
             $stmt->bindParam(':task_num', $task_num);
+
             $stmt->execute();
 
             echo "Task updated.";

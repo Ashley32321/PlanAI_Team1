@@ -1,7 +1,7 @@
 /*
 ------------------------------------------------------------------------------
-    Name:	Name
-    Author:	PAR
+    Name:	PAR_CPT181N09_MidtermProject_Query4.sql
+    Author:	Preston A. Reuter
     Language:	SQL
     Date:	2025-03-18
     Purpose:	The purpose of this query is 
