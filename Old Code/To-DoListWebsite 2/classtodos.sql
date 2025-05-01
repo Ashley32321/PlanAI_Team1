@@ -1,7 +1,7 @@
 /*
 ------------------------------------------------------------------------------
-    Name:	classtodos.sql
-    Author:	Preston A. Reuter
+    Name:	Name
+    Author:	PAR
     Language:	SQL
     Date:	2025-02-22
     Purpose: PlanAI Database
@@ -22,29 +22,20 @@ CREATE DATABASE `classtodos`;
 -- Make the new database the active schema.
 USE `classtodos`;
 
--- Create users table
-CREATE TABLE users (
-    user_id CHAR(36) PRIMARY KEY,  -- Store Google's unique ID
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    picture VARCHAR(255)
-);
+DROP TABLE IF EXISTS `tasks`;
 
--- Create tasks table
 CREATE TABLE tasks (
     task_num CHAR(5) PRIMARY KEY,  -- Unique 5-character task number
-    user_id CHAR(36) NOT NULL,     -- Connects to users
     task_name VARCHAR(100) NOT NULL,        
     task_date DATE NOT NULL,                         
     task_time TIME NOT NULL, 
-    /*completed BOOLEAN DEFAULT 0,*/                        
+    completed BOOLEAN DEFAULT 0,                        
     status ENUM('Pending', 'In Progress', 'Completed') DEFAULT 'Pending',  
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP 
 );
 
--- Create a trigger to auto-generate a task_num
+-- Create a trigger to auto-generate a task_num (5-character random ID)
 DROP TRIGGER IF EXISTS before_insert_tasks;
 DELIMITER //
 CREATE TRIGGER before_insert_tasks 

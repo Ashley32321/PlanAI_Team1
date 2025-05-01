@@ -1,27 +1,21 @@
 <?php
-// Disable direct error output, but log it to a file
-ini_set('display_errors', 0); // Don't show errors in the response
-ini_set('log_errors', 1); // Log errors to a file
-error_log('errors.log'); // Set log file
-
+session_start();
 require 'db_connect.php';
 
-header("Content-Type: application/json");
+if (!isset($_SESSION['google_loggedin'])) {
+    echo json_encode([]);
+    exit;
+}
+
+$user_id = $_SESSION['google_id'];
 
 try {
-    // Execute query to fetch tasks ordered by task_date and task_time
-    $stmt = $db_conn->query("SELECT * FROM tasks ORDER BY task_date, task_time ASC");
+    $stmt = $db_conn->prepare("SELECT * FROM tasks WHERE user_id = :user_id ORDER BY task_date ASC, task_time ASC");
+    $stmt->execute(['user_id' => $user_id]);
     $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // If there are no tasks, return an empty array
-    if (empty($tasks)) {
-        echo json_encode([], JSON_PRETTY_PRINT); // No tasks found
-    } else {
-        // Return tasks as a JSON response
-        echo json_encode($tasks, JSON_PRETTY_PRINT);
-    }
+    echo json_encode($tasks);
 } catch (PDOException $e) {
-    // If there's a database error, return the error message as JSON
-    echo json_encode(["error" => "Database error: " . $e->getMessage()]);
+    echo json_encode(["error" => $e->getMessage()]);
 }
 ?>

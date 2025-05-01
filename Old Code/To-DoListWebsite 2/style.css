@@ -59,91 +59,21 @@ body {
     background-color: var(--bg-color);
 }
 
-/* === Icon Color for Theme === */
-.icon svg {
-    color: var(--text-color);
-    fill: currentColor;
-    transition: color 0.3s ease;
-}
-
-#task-form {
-    display: block;
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto 30px auto;
-    text-align: left;
-    padding: 0 10px;
+/* Form Layout */
+#task-form, #search-bar {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 15px;
 }
 
 /* Input Fields (Task Name, Date, Time, Search) */
 #task-name,
 #task-date,
-#task-time {
-    width: 100%;
-    max-width: 100%;
-}
-
-/* Search Bar Wrapper */
-#search-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.title-logo {
-    display: flex;
-    align-items: center; /* Vertical centering */
-    justify-content: center; /* Center horizontally, optional */
-    gap: 15px; /* Space between text and logo */
-    margin-bottom: 20px; /* Space under the title+logo area */
-}
-
-.title-logo h1 {
-    font-size: 144px;
-    margin: 0;
-}
-
-.logo-image {
-    width: 150px !important;
-    height: auto !important;
-}
-
-
-
-
-/* Search Bar Styling */
+#task-time,
 #search-bar {
     width: 60%;
     padding: 10px;
-    margin-right: 10px; /* ADD this to create a gap between search bar and filters */
-    border: 2px solid var(--border-color);
-    border-radius: 6px;
-    background-color: var(--button-bg);
-    color: var(--text-color);
-    box-shadow: inset -1px -5px 20px var(--shadow-color);
-    text-shadow: 2px 2px 8px var(--shadow-color);
-    font-size: 16px;
-}
-
-
-#filter-date,
-#filter-type {
-    padding: 10px;
-    border: 2px solid var(--border-color);
-    border-radius: 6px;
-    background-color: var(--button-bg);
-    color: var(--text-color);
-    box-shadow: inset -1px -5px 20px var(--shadow-color);
-    text-shadow: 2px 2px 8px var(--shadow-color);
-    font-size: 16px;
-}
-
-#task-name,
-#task-date,
-#task-time {
-    width: 100%;
-    padding: 10px;
     margin-bottom: 15px;
     border: 2px solid var(--border-color);
     border-radius: 6px;
@@ -154,11 +84,12 @@ body {
     font-size: 16px;
 }
 
-
-/* Task Action Buttons Container (Right of Search Bar) */
-#button-wrapper {
-    display: flex;
-    gap: 10px;
+/* Form Labels */
+#task-form label {
+    display: block;
+    text-align: left;
+    margin: 10px 0 5px 20%;
+    font-weight: bold;
 }
 
 /* General Buttons */
@@ -171,20 +102,6 @@ button {
     color: var(--text-color);
     box-shadow: inset -1px -5px 20px var(--shadow-color);
     text-shadow: 2px 2px 8px var(--shadow-color);
-}
-
-/* === Task Buttons Layout and Sizing === */
-.task-actions {
-    display: flex;
-    gap: 10px;
-    margin-left: auto; /* Pushes this div to the far right */
-}
-
-.task-actions button {
-    flex: 1; /* Equal width */
-    min-width: 100px;
-    padding: 10px 20px;
-    text-align: center;
 }
 
 button:hover {
@@ -217,6 +134,13 @@ li {
     color: var(--completed-text);
 }
 
+/* Task Action Buttons Container */
+.task-actions {
+    margin-left: auto; /* Pushes buttons to the far right */
+    display: flex;
+    gap: 10px;
+}
+
 /* Buttons in Task List */
 .complete-btn, .delete-btn, .edit-btn {
     background-color: transparent;
@@ -247,15 +171,13 @@ li {
 
 /* Special States for Complete Button */
 .complete-btn {
-    background-color: transparent;
-    color: var(--text-color);
-}
-
-.complete-btn:hover {
     background-color: #28a745;
     color: white;
 }
 
+.complete-btn:hover {
+    background-color: #218838;
+}
 
 .complete-btn:disabled {
     background-color: #6c757d;
@@ -338,26 +260,4 @@ body.login-page .google-login-btn svg {
 
 body.login-page .google-login-btn:hover {
     background-color: #357ae8;
-}
-
-.profile-details {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center the rows horizontally */
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.detail-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    gap: 10px;
-}
-
-
-.detail-row .icon svg {
-    width: 1.2em;
-    height: 1.2em;
-    flex-shrink: 0;
 }

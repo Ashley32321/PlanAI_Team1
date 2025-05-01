@@ -35,8 +35,6 @@ if (isset($_GET['code']) && !empty($_GET['code'])) {
             $_SESSION['google_email'] = $google_account_info->email;
             $_SESSION['google_name'] = $google_account_info->name;
             $_SESSION['google_picture'] = $google_account_info->picture;
-            $_SESSION['google_id'] = $google_account_info->id;
-
 
             // Debugging Output (Remove this after testing)
             echo "Session Variables Set:<br>";

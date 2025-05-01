@@ -1,5 +1,5 @@
 const signInPrompt = 'Please click the button below to log in using your Google account.';
-const clientId = '998946007648-orlcfpteudvhiajo6bnv0jhvqmkbgt9t.apps.googleusercontent.com';
+const clientId = '';
 
 window.onload = () => {
     document.getElementById("prompt").textContent = signInPrompt;
