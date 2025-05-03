@@ -173,6 +173,23 @@ button {
     text-shadow: 2px 2px 8px var(--shadow-color);
 }
 
+#calendar-button {
+    padding: 10px;
+    border: 4px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--button-bg);
+    cursor: pointer;
+    color: var(--text-color);
+    box-shadow: inset -1px -5px 20px var(--shadow-color);
+    text-shadow: 2px 2px 8px var(--shadow-color);
+    font-size: 16px;
+    margin-left: 10px; /* space if placed next to search bar */
+}
+
+#calendar-button:hover {
+    background: var(--button-hover-bg);
+}
+
 /* === Task Buttons Layout and Sizing === */
 .task-actions {
     display: flex;
