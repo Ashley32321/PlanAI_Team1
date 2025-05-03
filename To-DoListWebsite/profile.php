@@ -93,10 +93,10 @@ if (!$user) {
                 </div>
             </div>
         </div>
-
-    <!-- To-Do List Section -->
-    <div class="container">
-        <h1>To-Do List</h1>
+        
+     <!-- To-Do List Section -->
+        <div class="container">
+           <h1>To-Do List</h1>
 
         <!-- Task input form -->
         <form id="task-form">
@@ -117,6 +117,17 @@ if (!$user) {
 
             <!-- Search bar -->
             <input type="text" id="search-bar" placeholder="Search tasks...">
+
+            <div id="button-wrapper">
+                    <input type="date" id="filter-date">
+                    <select id="filter-type">
+                        <option value="all">Show All</option>
+                        <option value="before">Before Date</option>
+                        <option value="after">After Date</option>
+                    </select>
+                    <a href="calendar.php" class="calendar-btn"> View Calendar</a>
+                </div>
+            </div>
 
             <!-- Filter controls for date and type -->
             <div id="button-wrapper">
