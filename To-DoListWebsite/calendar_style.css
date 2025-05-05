@@ -6,17 +6,20 @@
     border-radius: 8px;
     padding: 10px;
     box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+    text-shadow: 1px 1px 2px var(--shadow-color);
     height: 600px; 
 }
 
 /* FullCalendar header toolbar */
 .fc-toolbar {
         background-color: #f5f5f5e0; /* Set a light background for the toolbar */
+        box-shadow: inset -1px -5px 20px var(--shadow-color);
     }
 
 .fc-toolbar-title {
     font-size: 1.5em;
     color: #4169E1;
+    text-shadow: 2px 2px 2px var(--shadow-color);
 }
 
 /* FullCalendar buttons */
@@ -46,11 +49,12 @@
 .fc-daygrid-day {
     background-color: #ffffff;
     border: 10px solid #333;
+    box-shadow: inset -1px -1px 10px var(--shadow-color);
 }
 /* FullCalendar day number styling */
 .fc-daygrid-day-number {
     font-size: 1.2em;
-    color: #000000;;
+    color: #aaaaaa;
 }
 
 /* Mobile Responsiveness */

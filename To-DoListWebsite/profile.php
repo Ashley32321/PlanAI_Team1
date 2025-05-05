@@ -1,3 +1,30 @@
+<script>
+async function askGemini() {
+    const prompt = document.getElementById('geminiPrompt').value;
+    const responseDiv = document.getElementById('geminiResponse');
+    responseDiv.textContent = 'Thinking...';
+
+    try {
+        const res = await fetch('http://localhost:3001/ask-gemini', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt })
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+            responseDiv.textContent = data.reply;
+        } else {
+            console.error('Error from server:', data);
+            responseDiv.textContent = `Error: ${data.reply || 'Unknown error'}`;
+        }
+    } catch (err) {
+        console.error('Request failed:', err);
+        responseDiv.textContent = 'Failed to connect to Gemini server.';
+    }
+}
+</script>
+
 <?php
 session_start();
 require 'db_connect.php';
@@ -93,10 +120,10 @@ if (!$user) {
                 </div>
             </div>
         </div>
-        
-     <!-- To-Do List Section -->
-        <div class="container">
-           <h1>To-Do List</h1>
+
+    <!-- To-Do List Section -->
+    <div class="container">
+        <h1>To-Do List</h1>
 
         <!-- Task input form -->
         <form id="task-form">
@@ -118,17 +145,6 @@ if (!$user) {
             <!-- Search bar -->
             <input type="text" id="search-bar" placeholder="Search tasks...">
 
-            <div id="button-wrapper">
-                    <input type="date" id="filter-date">
-                    <select id="filter-type">
-                        <option value="all">Show All</option>
-                        <option value="before">Before Date</option>
-                        <option value="after">After Date</option>
-                    </select>
-                    <a href="calendar.php" class="calendar-btn"> View Calendar</a>
-                </div>
-            </div>
-
             <!-- Filter controls for date and type -->
             <div id="button-wrapper">
                 <input type="date" id="filter-date">
@@ -137,12 +153,48 @@ if (!$user) {
                     <option value="before">Before Date</option>
                     <option value="after">After Date</option>
                 </select>
+                <a href="calendar.php" class="calendar-btn"> View Calendar</a>
             </div>
         </div>
 
         <!-- Task list -->
         <ul id="task-list"></ul>
     </div>
+      <!-- Gemini Assistant Section -->
+      <div style="margin: 2rem 0; padding: 1rem; border: 1px solid #ccc; border-radius: 10px;">
+        <h2>Ask Gemini:</h2>
+        <input type="text" id="geminiPrompt" placeholder="Type your question here..." style="width: 60%; padding: 0.5rem;" />
+        <button onclick="askGemini()" style="padding: 0.5rem 1rem;">Ask</button>
+        <p id="geminiResponse" style="margin-top: 1rem; font-style: italic;">Response will appear here</p>
+    </div>
+</div>
+
+<script>
+async function askGemini() {
+    const prompt = document.getElementById('geminiPrompt').value;
+    const responseDiv = document.getElementById('geminiResponse');
+    responseDiv.textContent = 'Thinking...';
+
+    try {
+        const res = await fetch('http://localhost:3001/ask-gemini', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt })
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+            responseDiv.textContent = data.reply;
+        } else {
+            console.error('Error from server:', data);
+            responseDiv.textContent = `Error: ${data.reply || 'Unknown error'}`;
+        }
+    } catch (err) {
+        console.error('Request failed:', err);
+        responseDiv.textContent = 'Failed to connect to Gemini server.';
+    }
+}
+</script>
 
     <!-- JavaScript -->
     <script src="tasks.js" defer></script>
